@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Honobono님의 지금 - 크리에이터 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family:
+          "Hiragana Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          "SF Pro Text",
+          sans-serif;
+        background-color: #e5e7eb; /* 화면 밖 배경 (데스크탑용) */
+      }
+      .report-container {
+        background-color: #f4f5f7;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+      .card {
+        background-color: #ffffff;
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+      }
+      .highlight-text {
+        box-shadow: inset 0 -10px 0 rgba(34, 197, 94, 0.2); /* 연한 녹색 형광펜 효과 */
+      }
+
+      /* SVG 차트 애니메이션 */
+      @keyframes dash {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      .circle-chart-circle {
+        animation: dash 1.5s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body class="antialiased text-gray-800">
+    <!-- 모바일 비율을 유지하는 메인 컨테이너 -->
+    <main
+      class="report-container max-w-[480px] mx-auto min-h-screen relative pb-12"
+    >
+      <!-- 헤더 영역 (일러스트 & 타이틀) -->
+      <header class="pt-10 pb-6 px-6 text-center">
+        <div class="mx-[20px] mb-8">
+          <!-- 인사이트 보고서 프리뷰 SVG -->
+          <svg
+            viewBox="0 0 800 400"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-full h-auto block rounded-2xl shadow-sm relative z-10"
+          >
+            <defs>
+              <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f8fafc" />
+                <stop offset="100%" stop-color="#f1f5f9" />
+              </linearGradient>
+              <linearGradient
+                id="chartGrad"
+                x1="0%"
+                y1="100%"
+                x2="100%"
+                y2="0%"
+              >
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#8b5cf6" />
+              </linearGradient>
+              <filter id="shadowLg">
+                <feDropShadow
+                  dx="0"
+                  dy="10"
+                  stdDeviation="15"
+                  flood-color="#0f172a"
+                  flood-opacity="0.08"
+                />
+              </filter>
+              <filter id="shadowSm">
+                <feDropShadow
+                  dx="0"
+                  dy="4"
+                  stdDeviation="6"
+                  flood-color="#0f172a"
+                  flood-opacity="0.05"
+                />
+              </filter>
+              <pattern
+                id="grid"
+                width="40"
+                height="40"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M 40 0 L 0 0 0 40"
+                  fill="none"
+                  stroke="#e2e8f0"
+                  stroke-width="1"
+                />
+              </pattern>
+            </defs>
+
+            <!-- Background with Grid -->
+            <rect width="800" height="400" fill="url(#bgGrad)" />
+            <rect width="800" height="400" fill="url(#grid)" />
+
+            <!-- Accent Soft Glowing Orbs -->
+            <circle
+              cx="150"
+              cy="100"
+              r="120"
+              fill="#bae6fd"
+              opacity="0.5"
+              filter="blur(40px)"
+            />
+            <circle
+              cx="650"
+              cy="300"
+              r="150"
+              fill="#ddd6fe"
+              opacity="0.5"
+              filter="blur(50px)"
+            />
+
+            <!-- Main Report Dashboard Panel -->
+            <g transform="translate(150, 40)" filter="url(#shadowLg)">
+              <rect width="500" height="320" rx="16" fill="#ffffff" />
+
+              <!-- Top Bar -->
+              <rect
+                x="0"
+                y="0"
+                width="500"
+                height="60"
+                fill="#f8fafc"
+                rx="16"
+              />
+              <path d="M 0 60 L 500 60" stroke="#e2e8f0" stroke-width="1" />
+
+              <!-- Skeleton UI Header Elements -->
+              <rect
+                x="30"
+                y="20"
+                width="140"
+                height="20"
+                rx="6"
+                fill="#1e293b"
+              />
+              <rect
+                x="410"
+                y="20"
+                width="60"
+                height="20"
+                rx="10"
+                fill="#e2e8f0"
+              />
+
+              <!-- Main Trend Chart Area -->
+              <rect
+                x="30"
+                y="90"
+                width="280"
+                height="150"
+                rx="12"
+                fill="#f8fafc"
+                stroke="#e2e8f0"
+                stroke-width="1"
+              />
+
+              <!-- Trend Line -->
+              <path
+                d="M 50 200 Q 100 180 150 120 T 250 100 T 290 80"
+                fill="none"
+                stroke="url(#chartGrad)"
+                stroke-width="6"
+                stroke-linecap="round"
+              />
+
+              <!-- Data Highlight Points -->
+              <circle
+                cx="150"
+                cy="120"
+                r="6"
+                fill="#ffffff"
+                stroke="#8b5cf6"
+                stroke-width="3"
+              />
+              <circle
+                cx="250"
+                cy="100"
+                r="6"
+                fill="#ffffff"
+                stroke="#8b5cf6"
+                stroke-width="3"
+              />
+
+              <!-- Area under line -->
+              <path
+                d="M 50 200 Q 100 180 150 120 T 250 100 T 290 80 L 290 220 L 50 220 Z"
+                fill="url(#chartGrad)"
+                opacity="0.1"
+              />
+
+              <!-- Right Column Metric Cards -->
+              <rect
+                x="330"
+                y="90"
+                width="140"
+                height="65"
+                rx="12"
+                fill="#f8fafc"
+                stroke="#e2e8f0"
+                stroke-width="1"
+              />
+              <rect
+                x="350"
+                y="105"
+                width="40"
+                height="8"
+                rx="4"
+                fill="#94a3b8"
+              />
+              <rect
+                x="350"
+                y="125"
+                width="80"
+                height="12"
+                rx="6"
+                fill="#3b82f6"
+              />
+
+              <rect
+                x="330"
+                y="175"
+                width="140"
+                height="65"
+                rx="12"
+                fill="#f8fafc"
+                stroke="#e2e8f0"
+                stroke-width="1"
+              />
+              <rect
+                x="350"
+                y="190"
+                width="40"
+                height="8"
+                rx="4"
+                fill="#94a3b8"
+              />
+              <rect
+                x="350"
+                y="210"
+                width="60"
+                height="12"
+                rx="6"
+                fill="#10b981"
+              />
+
+              <!-- Bottom Data Rows -->
+              <rect
+                x="30"
+                y="270"
+                width="440"
+                height="8"
+                rx="4"
+                fill="#e2e8f0"
+              />
+              <rect
+                x="30"
+                y="270"
+                width="300"
+                height="8"
+                rx="4"
+                fill="#cbd5e1"
+              />
+              <rect
+                x="30"
+                y="290"
+                width="440"
+                height="8"
+                rx="4"
+                fill="#e2e8f0"
+              />
+              <rect
+                x="30"
+                y="290"
+                width="200"
+                height="8"
+                rx="4"
+                fill="#cbd5e1"
+              />
+            </g>
+
+            <!-- Floating "Insights" Badge -->
+            <g transform="translate(530, 260)" filter="url(#shadowSm)">
+              <rect width="140" height="40" rx="20" fill="#10b981" />
+              <path
+                d="M 25 20 L 35 28 L 50 13"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <text
+                x="60"
+                y="25"
+                font-family="'Hiragana Sans', sans-serif"
+                font-size="14"
+                font-weight="bold"
+                fill="#ffffff"
+                letter-spacing="1"
+              >
+                INSIGHTS
+              </text>
+            </g>
+          </svg>
+        </div>
+
+        <h1
+          class="text-[30px] font-black leading-snug tracking-tight text-gray-900 mb-2"
+        >
+          오래 쓰고 싶어지는 스티커의 힘,<br />Honobono님의 지금
+        </h1>
+        <p class="text-sm text-gray-500">
+          2월 한 달 간의 데이터를 바탕으로 분석한<br />크리에이터 맞춤
+          리포트입니다.
+        </p>
+      </header>
+
+      <div class="px-5">
+        <!-- Section 1 -->
+        <div class="mb-10">
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-3">
+            지금의 Honobono를 한 문장으로 말하면
+          </h2>
+          <div class="card text-[15px] leading-relaxed text-gray-700">
+            <p class="mb-3">
+              Honobono님의 작품은
+              <span class="font-bold text-green-600"
+                >“자극적이지 않아도 오래 사랑받을 수 있다”</span
+              >는 걸 아주 분명하게 보여주고 있어요.
+            </p>
+            <p class="mb-3">
+              2월 기준으로 구매한 분 수는
+              <span class="font-bold">27,224명</span>이고, 매출도 하루하루 크게
+              흔들리기보다는
+              <span class="highlight-text font-medium"
+                >꾸준한 바탕 위에서 몇 번의 큰 피크가 올라오는 흐름</span
+              >이었습니다. 한 번 반짝하는 스타일이라기보다, 이미 생활 속에
+              자연스럽게 자리 잡은 크리에이터에 가깝다고 느껴졌어요.
+            </p>
+            <p>
+              특히 2/6, 2/14, 2/27처럼 크게 튀는 날이 있었지만, 그 외 날짜도
+              낮지 않은 수준으로 유지되고 있어서 “특정 작품 하나만 끌고 가는
+              구조”라기보다, 여러 작품이 함께 받쳐주는 건강한 상태로 보입니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="mb-10">
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-3">
+            어떤 분들이 특히 많이 좋아해주고 있냐면
+          </h2>
+
+          <div class="flex gap-3 mb-4">
+            <div
+              class="flex-1 bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center"
+            >
+              <span
+                class="text-xs font-semibold text-gray-500 mb-1 flex items-center gap-1"
+              >
+                <svg
+                  class="w-4 h-4 text-green-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                구매자 연령
+              </span>
+              <div class="text-[15px] font-bold leading-tight">
+                50대 이상이 <span class="text-green-600">79.0%</span><br /><span
+                  class="text-sm font-normal text-gray-500"
+                  >(45-49세 9.9%)</span
+                >
+              </div>
+            </div>
+            <div
+              class="flex-1 bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center"
+            >
+              <span
+                class="text-xs font-semibold text-gray-500 mb-1 flex items-center gap-1"
+              >
+                <svg
+                  class="w-4 h-4 text-orange-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                성별 비중
+              </span>
+              <div class="text-[15px] font-bold leading-tight">
+                여성 비중이 <span class="text-orange-500">88.2%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card text-[15px] leading-relaxed text-gray-700">
+            <p class="mb-3">
+              가장 눈에 띄는 건 연령대와 성별의 선명함이에요.<br />
+              구매자 기준으로 보면 50대 이상이 21,509명으로 전체의 79.0%,
+              45–49세가 2,700명으로 9.9%를 차지합니다. 즉, 전체 구매자의 거의
+              9할이 45세 이상이에요. 성별로는 여성 비중이 88.7%로 매우 높습니다.
+            </p>
+            <p class="mb-3">
+              매출 쪽도 거의 같은 흐름이에요. 50대 이상이 전체의 77.8%,
+              45–49세가 10.2%, 여성 비중이 88.2%였습니다.
+            </p>
+            <p class="mb-3">
+              이 숫자들이 말해주는 건 꽤 분명해요.<br />
+              Honobono님의 작품은 지금
+              <span class="font-bold text-green-600"
+                >“중장년 여성에게 정말 강한 신뢰를 받는 브랜드”</span
+              >가 되어 있다는 점이에요.
+            </p>
+            <p>
+              그리고 이건 단순히 연령대가 높다는 뜻이 아니라, 부담 없고, 말투가
+              부드럽고, 관계를 편안하게 만들어주는 표현이 이 집단에 아주 잘 닿고
+              있다는 뜻이기도 해요.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="mb-10">
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-3">
+            잘 팔리는 작품들에는 공통된 결이 있어요
+          </h2>
+          <div class="card text-[15px] leading-relaxed text-gray-700">
+            <p class="mb-4">
+              상위권 작품 이름을 보면 반복해서 보이는 단어들이 있습니다.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span
+                class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium"
+                >#やさしい (부드러운 정서)</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium"
+                >#日常 (생활 밀착)</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium"
+                >#毎日便利</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium"
+                >#シンプル (심플)</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium"
+                >#可愛すぎない大人</span
+              >
+              <span
+                class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm font-medium"
+                >#冬 #春 (계절감)</span
+              >
+            </div>
+
+            <p class="mb-3 font-semibold">
+              즉, 지금 잘 팔리는 힘은 크게 세 가지로 보입니다.
+            </p>
+            <ul class="list-disc pl-5 mb-4 space-y-1">
+              <li>첫째, 매일 꺼내 쓰기 편한 말.</li>
+              <li>둘째, 상대에게 부담을 주지 않는 온도.</li>
+              <li>셋째, 너무 유치하지 않은 어른스러운 귀여움.</li>
+            </ul>
+            <p class="mb-3">
+              이 조합이 정말 좋아요. 누군가를 웃기기 위해 억지로 튀지 않아도
+              되고, 강한 캐릭터성으로 밀어붙이지 않아도, “보내기 편하다”는
+              감각만으로 충분히 선택받고 있다는 뜻이니까요.
+            </p>
+            <p class="font-medium bg-green-50 p-3 rounded-xl text-green-800">
+              Honobono님의 강점은 귀여움 자체보다도, 귀여움을
+              <span class="font-bold">'생활 가능한 말투'</span>로 바꿔내는 데
+              있는 것 같아요.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="mb-10">
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-3">
+            지금 매출을 받쳐주는 힘은 신작보다 카탈로그예요
+          </h2>
+          <div class="card">
+            <div class="flex items-center justify-between mb-4">
+              <div class="text-[15px] font-bold leading-tight">
+                출시 6개월이 지난 작품 비중이<br />
+                <span class="text-2xl text-green-500 font-extrabold"
+                  >94.31%</span
+                >
+              </div>
+
+              <!-- 도넛 차트 -->
+              <div class="relative w-20 h-20">
+                <svg
+                  class="w-full h-full transform -rotate-90"
+                  viewBox="0 0 36 36"
+                >
+                  <!-- Background Circle -->
+                  <path
+                    class="text-gray-100"
+                    stroke-width="4"
+                    stroke="currentColor"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <!-- Progress Circle -->
+                  <path
+                    class="text-green-500 circle-chart-circle"
+                    stroke-dasharray="94.31, 100"
+                    stroke-width="4"
+                    stroke="currentColor"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    style="stroke-dashoffset: 100; stroke-linecap: round"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div
+              class="text-[15px] leading-relaxed text-gray-700 mt-2 border-t pt-4"
+            >
+              <p class="mb-2">이 부분은 정말 큰 장점이에요.</p>
+              <p class="mb-2">
+                스티커 매출 안에서 출시 6개월이 지난 작품 비중이 94.31%, 2–6개월
+                이내 작품은 5.69%였습니다.
+              </p>
+              <p>
+                이건
+                <span class="font-medium highlight-text"
+                  >오래된 작품이 아직도 힘을 잃지 않고 계속 팔리고 있다</span
+                >는 뜻이에요. 크리에이터 입장에서는 아주 든든한 구조죠. 이미
+                쌓아온 작품들이 시간이 지나도 역할을 하고 있다는 거니까요.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="mb-10">
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-3">
+            게다가 상품 구성도 균형이 좋아요.
+          </h2>
+          <div class="card">
+            <!-- Progress Bars -->
+            <div class="space-y-4 mb-6">
+              <div>
+                <div class="flex justify-between text-sm font-medium mb-1">
+                  <span class="text-purple-600 flex items-center gap-1"
+                    ><span class="w-2 h-2 rounded-full bg-purple-600"></span>
+                    스티커</span
+                  >
+                  <span>66.47%</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2.5">
+                  <div
+                    class="bg-purple-500 h-2.5 rounded-full"
+                    style="width: 66.47%"
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm font-medium mb-1">
+                  <span class="text-yellow-500 flex items-center gap-1"
+                    ><span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+                    이모지</span
+                  >
+                  <span>31.89%</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2.5">
+                  <div
+                    class="bg-yellow-400 h-2.5 rounded-full"
+                    style="width: 31.89%"
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm font-medium mb-1">
+                  <span class="text-gray-500 flex items-center gap-1"
+                    ><span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                    테마</span
+                  >
+                  <span>1.63%</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2.5">
+                  <div
+                    class="bg-gray-400 h-2.5 rounded-full"
+                    style="width: 1.63%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-[15px] leading-relaxed text-gray-700">
+              <p>
+                스티커가 중심축이긴 하지만, 이모지도 꽤 의미 있는 비중을
+                차지하고 있어서, Honobono님의 감성이 꼭 긴 문장형 표현에만
+                머무는 게 아니라 짧고 가볍게 쓰는 방식으로도 잘 확장되고 있다고
+                볼 수 있어요.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="mb-10">
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-3">
+            조금 더 깊게 보면, 다음 기회도 보여요
+          </h2>
+          <div class="card text-[15px] leading-relaxed text-gray-700">
+            <p class="mb-4">
+              재미있는 점은 구매자 수 자체는 50대 이상이 압도적이지만,
+              <span class="font-semibold text-blue-600"
+                >1인당 구매 금액과 구매 패키지 수는 25–39세에서 더 높게
+                나온다</span
+              >는 점이에요.
+            </p>
+
+            <div class="bg-gray-50 rounded-xl p-4 mb-4 border border-gray-100">
+              <ul class="text-sm space-y-2">
+                <li class="flex justify-between border-b pb-1">
+                  <span class="text-gray-500">1인당 구매 금액 1위</span>
+                  <span class="font-bold">30-34세 (247)</span>
+                </li>
+                <li class="flex justify-between border-b pb-1">
+                  <span class="text-gray-500">1인당 구매 금액 2위</span>
+                  <span class="font-medium">25-29세 (235)</span>
+                </li>
+                <li class="flex justify-between pb-1">
+                  <span class="text-gray-500">1인당 구매 패키지 수</span>
+                  <span class="font-medium"
+                    >30-34세 (1.18) / 25-29세 (1.16)</span
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <p class="mb-3">
+              무슨 뜻이냐면, 지금의 큰 규모는 50대 이상 여성층이 만들어주고
+              있지만, 한 번 들어온 뒤 더 넓게 사주는 힘은 20대 후반~30대에서도
+              꽤 좋다는 거예요.
+            </p>
+            <p class="mb-4">
+              그래서 앞으로는 지금의 핵심 팬층을 흔들지 않으면서, 조금 younger한
+              생활 맥락을 자연스럽게 섞어 주는 방식이 잘 맞을 가능성이 높아요.
+            </p>
+
+            <div class="bg-blue-50/50 p-4 rounded-xl">
+              <p class="font-bold mb-2 text-sm text-blue-800">
+                예를 들면 이런 방향이에요.
+              </p>
+              <ul class="text-sm space-y-1.5 text-gray-700 list-disc pl-4">
+                <li>"어른스럽지만 딱딱하지 않은 말투"</li>
+                <li>"직장/가족/친구 사이에서 모두 무난하게 쓸 수 있는 표현"</li>
+                <li>
+                  "계절감은 있지만 너무 행사 중심으로만 가지 않는 일상형 세트"
+                </li>
+                <li>
+                  "배려, 안부, 답장, 부탁, 마무리 인사처럼 관계를 부드럽게
+                  해주는 말"
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 7 -->
+        <div class="mb-10">
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-3">
+            앞으로 만들 때 특히 잘 맞아 보이는 방향
+          </h2>
+          <div class="card text-[15px] leading-relaxed text-gray-700 space-y-4">
+            <p>
+              지금 흐름을 보면, 다음 작품은 아래 같은 방향에서 힘이 날 가능성이
+              커 보여요.
+            </p>
+
+            <div>
+              <h3 class="font-bold text-gray-900 flex items-center gap-1 mb-1">
+                <span>1. "계절 × 배려"</span>
+              </h3>
+              <p class="text-sm">
+                겨울/봄처럼 계절감이 들어간 작품이 이미 잘 반응하고 있어서,
+                계절을 전면에 내세우되 결국은 '쓰기 편한 말'로 마무리되는 구성이
+                잘 맞아 보여요.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-gray-900 flex items-center gap-1 mb-1">
+                <span>2. "어른 취향의 일상형"</span>
+              </h3>
+              <p class="text-sm">
+                상위권에 "과하게 귀엽지 않은", "심플한", "매일 편한" 톤이
+                반복되는 걸 보면, Honobono님에게 기대되는 건 자극적인
+                새로움보다도 '이번에도 역시 편하다'는 신뢰 같아요.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-gray-900 flex items-center gap-1 mb-1">
+                <span>3. "이모지 확장"</span>
+              </h3>
+              <p class="text-sm">
+                이모지 비중이 31.89%면 결코 작지 않아요. 짧은 반응, 안부, 공감,
+                부드러운 리액션 쪽에서 Honobono님의 결이 잘 살아날 여지가
+                충분합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outro -->
+        <div
+          class="mt-12 bg-gray-900 text-white rounded-2xl p-6 shadow-lg text-center relative overflow-hidden"
+        >
+          <!-- 장식용 별 -->
+          <svg
+            class="absolute top-4 right-4 w-6 h-6 text-yellow-300 opacity-50"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+            ></path>
+          </svg>
+
+          <h2 class="text-[22px] font-black leading-tight tracking-tight mb-4">
+            Honobono님께 꼭 전하고 싶은 말
+          </h2>
+          <div class="text-[15px] leading-relaxed text-gray-200">
+            <p class="mb-4">
+              지금 Honobono님의 작품은 단순히 잘 팔리는 것을 넘어, 누군가의
+              일상적인 대화 습관 안에 들어가 있는 상태에 가까워 보여요. 이건
+              정말 쉽게 만들어지는 힘이 아니에요.
+            </p>
+            <p class="mb-4">
+              특히 중장년 여성층에게 강하게 사랑받고 있다는 건, 작품이 예쁘기만
+              한 게 아니라
+              <span class="text-white font-bold border-b border-green-400"
+                >“보내는 사람을 편하게 만들어준다”</span
+              >는 신뢰를 이미 얻었다는 뜻이거든요.
+            </p>
+            <p>
+              그래서 앞으로도 억지로 크게 바꾸기보다, 지금의 부드러움, 생활감,
+              어른스러운 귀여움을 더 정교하게 쌓아가시면 좋겠어요.
+            </p>
+            <p class="mt-4 font-bold text-white">
+              이미 Honobono님만의 자리는 충분히 만들어져 있고, 그 자리는
+              생각보다 훨씬 단단해 보입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
